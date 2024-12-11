@@ -70,7 +70,7 @@ export default function Home() {
       });
     };
 
-    const interval = setInterval(addNewDanmaku, 1000); // 增加到3秒添加一个新弹幕
+    const interval = setInterval(addNewDanmaku, 500);
     return () => clearInterval(interval);
   }, [danmakuList]);
 
