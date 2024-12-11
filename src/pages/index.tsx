@@ -31,51 +31,48 @@ export default function Home() {
       setActiveDanmaku(prev => {
         // 移除已经完成动画的弹幕
         const now = Date.now();
-        const filtered = prev.filter(d => now - d.startTime < 30000); // 减少动画时间到30秒
+        const filtered = prev.filter(d => now - d.startTime < 20000);
         
-        // 找到多个合适的轨道
-        const tracks = Array(20).fill(false);
+        // 检查轨道占用情况
+        const trackOccupancy = new Array(20).fill(false); // 增加轨道数到20条
         filtered.forEach(d => {
-          const progress = (now - d.startTime) / 30000;
+          // 计算弹幕在屏幕上的位置百分比
+          const elapsedTime = now - d.startTime;
+          const progress = elapsedTime / 20000;
           if (progress < 1) {
-            tracks[d.track] = true;
-            if (d.text.length > 20) {
-              if (d.track > 0) tracks[d.track - 1] = true;
-              if (d.track < tracks.length - 1) tracks[d.track + 1] = true;
-            }
+            trackOccupancy[d.track] = true;
           }
         });
         
-        // 每次添加2-3条新弹幕
+        // 每次添加1-2条新弹幕，减少同时出现的弹幕数量
         const newDanmakus = [];
-        const numNewDanmakus = Math.floor(Math.random() * 2) + 2; // 随机2-3条
+        const numNewDanmakus = Math.floor(Math.random() * 2) + 1;
         
         for(let j = 0; j < numNewDanmakus; j++) {
           // 寻找空闲轨道
-          let availableTrack = -1;
-          for (let i = 0; i < tracks.length; i++) {
-            if (!tracks[i]) {
-              availableTrack = i;
-              tracks[i] = true; // 标记该轨道已被使用
-              break;
-            }
-          }
+          const availableTracks = trackOccupancy
+            .map((occupied, index) => ({ occupied, index }))
+            .filter(track => !track.occupied)
+            .map(track => track.index);
+            
+          if (availableTracks.length === 0) continue;
           
-          if (availableTrack !== -1) {
-            const newDanmaku = {
-              ...danmakuList[Math.floor(Math.random() * danmakuList.length)],
-              track: availableTrack,
-              startTime: now
-            };
-            newDanmakus.push(newDanmaku);
-          }
+          // 随机选择一个空闲轨道
+          const track = availableTracks[Math.floor(Math.random() * availableTracks.length)];
+          
+          const newDanmaku = {
+            ...danmakuList[Math.floor(Math.random() * danmakuList.length)],
+            track,
+            startTime: now
+          };
+          newDanmakus.push(newDanmaku);
         }
         
         return [...filtered, ...newDanmakus];
       });
     };
 
-    const interval = setInterval(addNewDanmaku, 50); // 减少间隔时间到50ms
+    const interval = setInterval(addNewDanmaku, 1500); // 增加间隔时间到1.5秒
     return () => clearInterval(interval);
   }, [danmakuList]);
 
@@ -136,13 +133,13 @@ export default function Home() {
             key={`${danmaku.id}-${danmaku.startTime}`}
             style={{
               position: "absolute",
-              top: `${danmaku.track * 5}%`,
+              top: `${danmaku.track * 5}%`, // 减小轨道间距
               left: "100%",
               whiteSpace: "nowrap",
               color: danmaku.color,
               fontSize: `${danmaku.size}px`,
               fontWeight: "bold",
-              animation: `scroll 30s linear`, // 减少动画时间到30秒
+              animation: `scroll 20s linear`,
               animationFillMode: "forwards",
               textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
             }}
