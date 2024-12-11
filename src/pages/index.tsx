@@ -8,11 +8,9 @@ export default function Home() {
   // 加载弹幕数据
   useEffect(() => {
     fetch('/bulletchat.json')
-      .then(res => res.json())
-      .then(data => {
-        // 随机打乱所有数据
+      .then((res) => res.json())
+      .then((data) => {
         const shuffledData = data.sort(() => 0.5 - Math.random());
-        
         const formattedData = shuffledData.map((item: any) => ({
           id: item.软通工号,
           text: item.对软通动力及RMO组织的祝福与承诺,
@@ -28,54 +26,37 @@ export default function Home() {
     if (danmakuList.length === 0) return;
 
     const addNewDanmaku = () => {
-      setActiveDanmaku(prev => {
-        // 移除已经完成动画的弹幕
+      setActiveDanmaku((prev) => {
         const now = Date.now();
-        const filtered = prev.filter(d => now - d.startTime < 30000); // 减少动画时间到30秒
-        
-        // 找到多个合适的轨道
+
+        // 查找未使用的轨道
         const tracks = Array(20).fill(false);
-        filtered.forEach(d => {
-          const progress = (now - d.startTime) / 30000;
+        prev.forEach((d) => {
+          const progress = (now - d.startTime) / d.duration;
           if (progress < 1) {
             tracks[d.track] = true;
-            if (d.text.length > 20) {
-              if (d.track > 0) tracks[d.track - 1] = true;
-              if (d.track < tracks.length - 1) tracks[d.track + 1] = true;
-            }
           }
         });
-        
-        // 每次添加2-3条新弹幕
+
         const newDanmakus = [];
-        const numNewDanmakus = Math.floor(Math.random() * 2) + 2; // 随机2-3条
-        
-        for(let j = 0; j < numNewDanmakus; j++) {
-          // 寻找空闲轨道
-          let availableTrack = -1;
-          for (let i = 0; i < tracks.length; i++) {
-            if (!tracks[i]) {
-              availableTrack = i;
-              tracks[i] = true; // 标记该轨道已被使用
-              break;
-            }
-          }
-          
+        for (let i = 0; i < 3; i++) {
+          const availableTrack = tracks.findIndex((t) => !t);
           if (availableTrack !== -1) {
-            const newDanmaku = {
+            tracks[availableTrack] = true;
+            newDanmakus.push({
               ...danmakuList[Math.floor(Math.random() * danmakuList.length)],
               track: availableTrack,
-              startTime: now
-            };
-            newDanmakus.push(newDanmaku);
+              startTime: now,
+              duration: Math.random() * 20000 + 20000, // 随机速度（20s~40s）
+            });
           }
         }
-        
-        return [...filtered, ...newDanmakus];
+
+        return [...prev, ...newDanmakus];
       });
     };
 
-    const interval = setInterval(addNewDanmaku, 50); // 减少间隔时间到50ms
+    const interval = setInterval(addNewDanmaku, 1000);
     return () => clearInterval(interval);
   }, [danmakuList]);
 
@@ -86,6 +67,11 @@ export default function Home() {
     }, 500);
     return () => clearInterval(interval);
   }, []);
+
+  // 动画结束后清理弹幕
+  const handleAnimationEnd = (id: number) => {
+    setActiveDanmaku((prev) => prev.filter((item) => item.id !== id));
+  };
 
   return (
     <div
@@ -115,7 +101,7 @@ export default function Home() {
           transform: `scale(${scale})`,
           transition: "transform 0.5s ease-in-out",
           position: "absolute",
-          zIndex: 1
+          zIndex: 1,
         }}
       >
         <div
@@ -134,6 +120,7 @@ export default function Home() {
         {activeDanmaku.map((danmaku) => (
           <div
             key={`${danmaku.id}-${danmaku.startTime}`}
+            onAnimationEnd={() => handleAnimationEnd(danmaku.id)}
             style={{
               position: "absolute",
               top: `${danmaku.track * 5}%`,
@@ -142,7 +129,7 @@ export default function Home() {
               color: danmaku.color,
               fontSize: `${danmaku.size}px`,
               fontWeight: "bold",
-              animation: `scroll 30s linear`, // 减少动画时间到30秒
+              animation: `scroll ${danmaku.duration}ms linear`,
               animationFillMode: "forwards",
               textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
             }}
