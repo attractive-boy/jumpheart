@@ -22,14 +22,21 @@ export default function Home() {
 
   // 播放视频到canvas
   useEffect(() => {
-    if (videoRef.current && canvasRef.current) {
-      const context = canvasRef.current.getContext('2d');
+    const handleLoadedMetadata = () => {
+      if (videoRef.current && canvasRef.current) {
+        canvasRef.current.width = videoRef.current.videoWidth;
+        canvasRef.current.height = videoRef.current.videoHeight;
+      }
+    };
+
+    if (videoRef.current) {
+      videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
       videoRef.current.loop = true;
       videoRef.current.play();
+    }
 
-      // 设置canvas的宽高与视频一致
-      canvasRef.current.width = videoRef.current.videoWidth;
-      canvasRef.current.height = videoRef.current.videoHeight;
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext('2d');
 
       const draw = () => {
         if (context && videoRef.current && canvasRef.current) {
@@ -40,12 +47,13 @@ export default function Home() {
 
       draw();
     }
-  }, []);
 
-  // 动画结束后清理弹幕
-  const handleAnimationEnd = (id: number) => {
-    setActiveDanmaku((prev) => prev.filter((item) => item.id !== id));
-  };
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      }
+    };
+  }, []);
 
   return (
     <div
@@ -79,7 +87,7 @@ export default function Home() {
       </div>
       
       <canvas ref={canvasRef} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "100%", height: "100%" }} />
-      <video ref={videoRef} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4 " muted crossOrigin="anonymous"  style={{width:"100%",height:"100%"}} />
+      <video ref={videoRef} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4 " muted crossOrigin="anonymous"  style={{display: "none"}} />
 
       <style jsx global>{`
        
