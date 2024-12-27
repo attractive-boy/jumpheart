@@ -16,23 +16,27 @@ export default function Home() {
 
   // 播放视频到canvas
   useEffect(() => {
-    if (videoRef.current && canvasRef.current) {
-      const context = canvasRef.current.getContext('2d');
-      videoRef.current.loop = true;
-      videoRef.current.play();
+    try {
+      if (videoRef.current && canvasRef.current) {
+        const context = canvasRef.current.getContext('2d');
+        videoRef.current.loop = true;
+        videoRef.current.play();
 
-      // 设置canvas的宽高与视频一致
-      canvasRef.current.width = videoRef.current.videoWidth;
-      canvasRef.current.height = videoRef.current.videoHeight;
+        // 设置canvas的宽高与视频一致
+        canvasRef.current.width = videoRef.current.videoWidth;
+        canvasRef.current.height = videoRef.current.videoHeight;
 
-      const draw = () => {
-        if (context && videoRef.current && canvasRef.current) {
-          context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-        }
-        requestAnimationFrame(draw);
-      };
+        const draw = () => {
+          if (context && videoRef.current && canvasRef.current) {
+            context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+          }
+          requestAnimationFrame(draw);
+        };
 
-      draw();
+        draw();
+      }
+    } catch (error) {
+      alert(error);
     }
   }, []);
 
@@ -59,16 +63,16 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        <img 
-          src={isPlaying ? "/pause.svg" : "/play.svg"} 
+        <img
+          src={isPlaying ? "/pause.svg" : "/play.svg"}
           alt={isPlaying ? "暂停" : "播放"}
           width="24"
           height="24"
         />
       </div>
-      
+
       <canvas ref={canvasRef} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "100%", height: "100%" }} />
-      <video ref={videoRef} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4 " muted crossOrigin="anonymous"  style={{display: "none"}} preload="auto" />
+      <video ref={videoRef} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4 " muted crossOrigin="anonymous" style={{ display: "none" }} preload="auto" loop />
 
       <style jsx global>{`
         @media screen and (orientation: portrait) {
