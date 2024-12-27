@@ -47,6 +47,10 @@ export default function Home() {
           document.getElementById('video1').muted = true;
           document.getElementById('video1').play();
         }, false);
+        document.addEventListener("touchstart", function() {
+          document.getElementById('video1').play();
+        }, false);
+        
       `}} />
       <div
         onClick={togglePlay}
