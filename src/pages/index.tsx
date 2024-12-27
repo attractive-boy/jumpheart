@@ -27,6 +27,10 @@ export default function Home() {
       videoRef.current.loop = true;
       videoRef.current.play();
 
+      // 设置canvas的宽高与视频一致
+      canvasRef.current.width = videoRef.current.videoWidth;
+      canvasRef.current.height = videoRef.current.videoHeight;
+
       const draw = () => {
         if (context && videoRef.current && canvasRef.current) {
           context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
