@@ -38,6 +38,11 @@ export default function Home() {
     }
   }, []);
 
+  // 动画结束后清理弹幕
+  const handleAnimationEnd = (id: number) => {
+    setActiveDanmaku((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
     <div
       id="gyroContain"
