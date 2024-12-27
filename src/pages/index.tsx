@@ -39,8 +39,10 @@ export default function Home() {
       const context = canvasRef.current.getContext('2d');
 
       const draw = () => {
-        if (context && videoRef.current && canvasRef.current) {
-          context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+        if (videoRef.current && videoRef.current.readyState >= 2) {
+          if (context && canvasRef.current) {
+            context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+          }
         }
         requestAnimationFrame(draw);
       };
