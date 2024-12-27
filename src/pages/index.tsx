@@ -73,8 +73,7 @@ export default function Home() {
       <video ref={videoRef}
         id="video1"
         muted 
-        crossOrigin="anonymous"
-        style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
+       
         preload="auto" 
         loop
         playsInline
