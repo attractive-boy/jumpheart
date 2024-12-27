@@ -22,39 +22,24 @@ export default function Home() {
 
   // 播放视频到canvas
   useEffect(() => {
-    const handleLoadedMetadata = () => {
-      if (videoRef.current && canvasRef.current) {
-        canvasRef.current.width = videoRef.current.videoWidth;
-        canvasRef.current.height = videoRef.current.videoHeight;
-      }
-    };
-
-    if (videoRef.current) {
-      videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
-      videoRef.current.loop = true;
-      videoRef.current.play();
-    }
-
     if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
+      videoRef.current.loop = true;
+      videoRef.current.play();
+
+      // 设置canvas的宽高与视频一致
+      canvasRef.current.width = videoRef.current.videoWidth;
+      canvasRef.current.height = videoRef.current.videoHeight;
 
       const draw = () => {
-        if (videoRef.current && videoRef.current.readyState >= 2) {
-          if (context && canvasRef.current) {
-            context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-          }
+        if (context && videoRef.current && canvasRef.current) {
+          context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
         }
         requestAnimationFrame(draw);
       };
 
       draw();
     }
-
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      }
-    };
   }, []);
 
   return (
@@ -89,7 +74,7 @@ export default function Home() {
       </div>
       
       <canvas ref={canvasRef} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "100%", height: "100%" }} />
-      <video  crossOrigin="anonymous" ref={videoRef} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4 " muted   style={{display: "none"}} />
+      <video ref={videoRef} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4 " muted crossOrigin="anonymous"  style={{display: "none"}} />
 
       <style jsx global>{`
        
