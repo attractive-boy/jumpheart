@@ -12,17 +12,6 @@ export default function Home() {
     }
   };
 
-  // 播放视频到canvas
-  useEffect(() => {
-    try {
-      if (videoRef.current) {
-        videoRef.current.loop = true;
-        videoRef.current.play();
-      }
-    } catch (error) {
-      alert(error);
-    }
-  }, []);
 
   return (
     <div
@@ -44,7 +33,7 @@ export default function Home() {
           height: "30px",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <img
@@ -55,7 +44,14 @@ export default function Home() {
         />
       </div>
 
-      <video ref={videoRef} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" muted crossOrigin="anonymous" style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} preload="auto" loop playsInline autoPlay />
+      <video ref={videoRef} 
+      src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" 
+      muted crossOrigin="anonymous" 
+      style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} 
+      preload="auto" loop playsInline
+       autoPlay x5-video-player-fullscreen="true"
+        x5-playsinline
+        webkit-playsinline />
 
       <style jsx global>{`
         @media screen and (orientation: portrait) {
