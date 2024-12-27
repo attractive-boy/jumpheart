@@ -12,13 +12,29 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.loop = true;
+      videoRef.current.preload = "auto";
+      videoRef.current.playsInline = true;
+      videoRef.current.muted = true;
+      videoRef.current.crossOrigin = "anonymous";
+      videoRef.current.style.display = "block";
+      videoRef.current.style.width = "100%";
+      videoRef.current.style.height = "100%";
+      videoRef.current.style.objectFit = "cover";
+      
+
+      videoRef.current.play();
+    }
+  }, []);
+
 
   return (
     <div
       id="gyroContain"
       style={{
         position: "relative",
-
       }}
     >
       <div
@@ -44,13 +60,16 @@ export default function Home() {
         />
       </div>
 
-      <video ref={videoRef} 
+      <video ref={videoRef}
 
-      muted crossOrigin="anonymous" 
-      style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} 
-      preload="auto" loop 
-      playsInline
-       autoPlay x5-video-player-fullscreen="true"
+        muted 
+        crossOrigin="anonymous"
+        style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
+        preload="auto" 
+        loop
+        playsInline
+        autoPlay 
+        x5-video-player-fullscreen="true"
         x5-playsinline
         webkit-playsinline >
         <source src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" type="video/mp4" />
