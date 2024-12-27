@@ -79,7 +79,7 @@ export default function Home() {
       </div>
       
       <canvas ref={canvasRef} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "100%", height: "100%" }} />
-      <video ref={videoRef} src="https://jumpheart.oss-cn-heyuan.aliyuncs.com/video.mp4" muted crossOrigin="anonymous" style={{ display: "none" }} />
+      <video ref={videoRef} src="http://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4 " muted crossOrigin="anonymous" style={{ display: "none" }} />
 
       <style jsx global>{`
        
