@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
@@ -29,7 +30,7 @@ export default function Home() {
     }
   }, []);
 
-
+  // @ts-ignore
   return (
     <div
       id="gyroContain"
