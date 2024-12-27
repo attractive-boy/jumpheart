@@ -37,7 +37,7 @@ export default function Home() {
         position: "relative",
       }}
     >
-      <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charSet="utf-8"></script>
+      <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charSet="utf-8"></script>
       <script dangerouslySetInnerHTML={{__html: `
         document.addEventListener("WeixinJSBridgeReady", function() { 
           document.getElementById('video1').play(); 
