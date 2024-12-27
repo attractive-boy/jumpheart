@@ -7,7 +7,7 @@ export default function Home() {
   // 添加播放控制函数
   const togglePlay = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isPlaying; // 切换静音状态
+      videoRef.current.muted = isPlaying; // 切换静音状态
       setIsPlaying(!isPlaying);
     }
   };
@@ -45,13 +45,16 @@ export default function Home() {
       </div>
 
       <video ref={videoRef} 
-      src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" 
+
       muted crossOrigin="anonymous" 
       style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} 
-      preload="auto" loop playsInline
+      preload="auto" loop 
+      playsInline
        autoPlay x5-video-player-fullscreen="true"
         x5-playsinline
-        webkit-playsinline />
+        webkit-playsinline >
+        <source src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" type="video/mp4" />
+      </video>
 
       <style jsx global>{`
         @media screen and (orientation: portrait) {
