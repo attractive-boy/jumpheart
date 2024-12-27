@@ -28,12 +28,16 @@
     "qrcode.react": "^4.1.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.4.0",
     "react-lottie-player": "^2.1.0",
     "react-quill": "^2.0.0",
+    "react-weui": "^1.2.3",
     "recharts": "^2.13.0",
+    "swiper": "^11.1.15",
     "umi-request": "^1.4.0",
     "uuid": "^10.0.0",
-    "wechatpay-node-v3": "^2.2.1"
+    "wechatpay-node-v3": "^2.2.1",
+    "weui": "^1.1.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -43,6 +47,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-weui": "^1.0.3",
     "@types/uuid": "^10.0.0",
     "cross-env": "^7.0.3",
     "postcss": "^8",
