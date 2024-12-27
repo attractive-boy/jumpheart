@@ -73,14 +73,21 @@ export default function Home() {
       <video ref={videoRef}
         id="video1"
         muted 
-       
-        preload="auto" 
+        crossOrigin="anonymous"
+        style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
+        preload="auto"
+        webkit-playsinline="true"
+        x-webkit-airplay="true"
         loop
-        playsInline
-        autoPlay 
+        playsinline="true"
+        x5-video-player-type="h5"
+        x5-video-orientation="h5"
         x5-video-player-fullscreen="true"
+        
+        autoPlay 
+        
         x5-playsinline
-        webkit-playsinline >
+        >
         <source src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" type="video/mp4" />
       </video>
 
