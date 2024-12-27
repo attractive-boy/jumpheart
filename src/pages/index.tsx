@@ -42,6 +42,10 @@ export default function Home() {
         document.addEventListener("WeixinJSBridgeReady", function() { 
           document.getElementById('video1').play(); 
         }, false);
+        document.addEventListener("DOMContentLoaded", function() {
+          document.getElementById('video1').muted = true;
+          document.getElementById('video1').play();
+        }, false);
       `}} />
       <div
         onClick={togglePlay}
