@@ -37,6 +37,12 @@ export default function Home() {
         position: "relative",
       }}
     >
+      <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charSet="utf-8"></script>
+      <script dangerouslySetInnerHTML={{__html: `
+        document.addEventListener("WeixinJSBridgeReady", function() { 
+          document.getElementById('video1').play(); 
+        }, false);
+      `}} />
       <div
         onClick={togglePlay}
         style={{
@@ -61,7 +67,7 @@ export default function Home() {
       </div>
 
       <video ref={videoRef}
-
+        id="video1"
         muted 
         crossOrigin="anonymous"
         style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
