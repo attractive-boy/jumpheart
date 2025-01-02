@@ -91,8 +91,8 @@ export default function Home() {
           height="24"
         />
       </div>
-      { showImage ? 
-      <img onClick={showVideo} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/image.png" alt="image" width="100%" height="100%" /> : <video ref={videoRef}
+      { showImage && <img onClick={showVideo} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/image.png" alt="image" width="100%" height="100%" /> }
+      <video ref={videoRef}
         id="video1"
         muted 
         crossOrigin="anonymous"
@@ -112,7 +112,7 @@ export default function Home() {
         >
         <source src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" type="video/mp4" />
       </video>
-      }
+      
 
       <style jsx global>{`
         @media screen and (orientation: portrait) {
