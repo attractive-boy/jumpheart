@@ -42,10 +42,13 @@ export default function Home() {
 
   const showVideo = () => {
     setShowImage(false);
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.play();
-    }
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.muted = true;
+        videoRef.current.play();
+        videoRef.current.style.display = "block"; // 确保视频显示
+      }
+    }, 0); // 使用 setTimeout 确保在下一个事件循环中执行
   }
   // @ts-ignore
   return (
