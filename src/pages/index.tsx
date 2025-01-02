@@ -43,6 +43,7 @@ export default function Home() {
   const showVideo = () => {
     setShowImage(false);
     if (videoRef.current) {
+      videoRef.current.muted = true;
       videoRef.current.play();
     }
   }
