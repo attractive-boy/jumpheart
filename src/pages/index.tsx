@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [showImage, setShowImage] = useState(false);
 
   // 添加播放控制函数
   const togglePlay = () => {
@@ -28,8 +29,23 @@ export default function Home() {
 
       videoRef.current.play();
     }
+
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+      //在微信中
+      //判断是不是安卓
+      if (ua.match(/android/i) == "android") {
+        setShowImage(true);
+      }
+    }
   }, []);
 
+  const showVideo = () => {
+    setShowImage(false);
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  }
   // @ts-ignore
   return (
     <div
@@ -45,9 +61,6 @@ export default function Home() {
         }, false);
         document.addEventListener("DOMContentLoaded", function() {
           document.getElementById('video1').muted = true;
-          document.getElementById('video1').play();
-        }, false);
-        document.addEventListener("touchstart", function() {
           document.getElementById('video1').play();
         }, false);
         
@@ -74,8 +87,8 @@ export default function Home() {
           height="24"
         />
       </div>
-
-      <video ref={videoRef}
+      { showImage ? 
+      <img onClick={showVideo} src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/image.png" alt="image" width="100%" height="100%" /> : <video ref={videoRef}
         id="video1"
         muted 
         crossOrigin="anonymous"
@@ -95,6 +108,7 @@ export default function Home() {
         >
         <source src="https://heartoss.xn--vuqw0e54ixuh2wab7xjjnvyb7x0m.online/video.mp4" type="video/mp4" />
       </video>
+      }
 
       <style jsx global>{`
         @media screen and (orientation: portrait) {
